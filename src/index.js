@@ -1,23 +1,29 @@
-// In src/index.js
 const express = require("express");
-
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
 
-// Enable CORS for all routes
-app.use(cors());
-// *** REMOVE ***
+// Enable CORS for specific origin
+app.use(cors({
+//   origin: "https://example.com"
+}));
+
+// Parse request body
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// GET route
 app.get("/", (req, res) => {
-  let data={};
-   data['GET']=req.query;
+  let data = {};
+  data["GET"] = req.query;
   res.send(data);
 });
 
 // POST route
-app.post('/', (req, res) => {
- console.log("POST request received");
+app.post("/", (req, res) => {
+  console.log("POST request received");
   const { data } = req.body;
   res.send(`Hello ${data}! This is a POST request`);
 });
