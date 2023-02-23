@@ -10,7 +10,7 @@ const cors = require('cors');
 app.use(cors());
 // *** REMOVE ***
 app.get("/", (req, res) => {
-  res.send({'message':'It's Working!'});
+  res.send({"message":" It's Working! "});
 });
 
 
