@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   console.log("POST request received");
   const { data } = req.body;
-  res.send(`Hello ${data}! This is a POST request`);
+  res.send(data);
 });
 
 app.listen(PORT, () => {
