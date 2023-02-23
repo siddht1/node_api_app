@@ -24,7 +24,8 @@ app.get("/", (req, res) => {
 // POST route
 app.post("/", (req, res) => {
   console.log("POST request received");
-  const { data } = req.body;
+  let data={};
+   data['POST'] = req.body;
   res.send(data);
 });
 
