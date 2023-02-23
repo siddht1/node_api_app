@@ -15,6 +15,12 @@ app.get("/", (req, res) => {
   res.send(data);
 });
 
+// POST route
+app.post('/', (req, res) => {
+ console.log("POST request received");
+  const { data } = req.body;
+  res.send(`Hello ${data}! This is a POST request`);
+});
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
