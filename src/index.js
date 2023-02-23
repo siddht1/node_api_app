@@ -10,9 +10,10 @@ app.use(cors({
 //   origin: "https://example.com"
 }));
 
-// Parse request body
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Parse request body and extended the size to 1mb
+
+app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
 // GET route
 app.get("/", (req, res) => {
