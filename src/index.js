@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
 // Enable CORS for all routes
-router.use(cors());
+app.use(cors());
 // *** REMOVE ***
 app.get("/", (req, res) => {
   res.send({'message':'It's Working!'});
