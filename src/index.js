@@ -4,10 +4,13 @@ const express = require("express");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require('cors');
 
+// Enable CORS for all routes
+router.use(cors());
 // *** REMOVE ***
 app.get("/", (req, res) => {
-  res.send("<h2>It's Working!</h2>");
+  res.send({'message':'It's Working!'});
 });
 
 
