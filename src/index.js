@@ -14,14 +14,14 @@ app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 app.use("*", (req, res) => {
   const data = {
     "status": "ok",
-    "url": req.originalUrl
+    "url": req.originalUrl,
+    IP: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+    post_get=req.body
+    
   };
   res.send(data);
 });
 
-// app.use("/api/openai/v1/chat/completions", v1Router);
-app.use("/v1/chat/completions", v1Router);
-// app.use("/api/v1/chat/completions", v1Router);
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
