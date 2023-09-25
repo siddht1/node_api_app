@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { createClient } = require('@supabase/supabase-js');
+const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const v1Router = require("./v1/routes");
@@ -20,7 +21,15 @@ app.use("*", async (req, res) => {
     "url": req.originalUrl,
     "ip_address": req.headers['x-forwarded-for'] || req.connection.remoteAddress,
     "request_body": req.body,
-    "request_method": req.method
+    "request_method": req.method,
+       lat: req.headers['x-vercel-ip-latitude'],
+    lon: req.headers['x-vercel-ip-longitude'],
+    city: req.headers['x-vercel-ip-city'],
+    region:req.headers['x-vercel-ip-country-region'] ,
+    country:req.headers['x-vercel-ip-country'],
+    UA: req.headers['user-agent'],
+    uuid: uuidv4(),
+    date_time: new Date()
   };
   
   const { data: log, error } = await supabase.from('db_test').insert(data); 
