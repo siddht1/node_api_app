@@ -36,6 +36,15 @@ app.post("/api/openai/v1/chat/completions", (req, res) => {
   res.send(users);
 });
 
+app.post("/api/openai/v1/chat/completions", (req, res) => {
+  console.log("POST request for openai chat completions received");
+  // Do something to handle the openai chat completions request
+    const users = [
+    { id: 1, name: 'Test_2' },
+    { id: 2, name: 'Test_2' }
+  ];
+  res.send(users);
+});
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
 });
