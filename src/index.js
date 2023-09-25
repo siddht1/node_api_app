@@ -27,9 +27,9 @@ app.post("/", (req, res) => {
   res.send(data);
 });
 
-app.use("/api/openai/v1/chat/completions", v1Router);
+// app.use("/api/openai/v1/chat/completions", v1Router);
 app.use("v1/chat/completions", v1Router);
-app.use("/api/v1/chat/completions", v1Router);
+// app.use("/api/v1/chat/completions", v1Router);
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
