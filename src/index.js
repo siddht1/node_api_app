@@ -25,25 +25,25 @@ app.post("/", (req, res) => {
   };
   res.send(data);
 });
-
-// Endpoint for the openai chat completions
-app.post("/api/openai/v1/chat/completions", (req, res) => {
-  console.log("POST request for openai chat completions received");
-  const users = [
-    { id: 1, name: 'Test_2' },
-    { id: 2, name: 'Test_2' }
-  ];
-  res.send(users);
+app.get('/api/openai/v1/chat/completions', async (req, res) => {
+  console.log('Received chat completions request');
+  const { prompt } = req.body;
+  
+  // Call OpenAI API to get completion
+  const completion = await getChatCompletion(prompt);
+  
+  // Return completion as JSON response
+  res.json({ completion });
 });
-
-app.post("/api/openai/v1/chat/completions", (req, res) => {
-  console.log("POST request for openai chat completions received");
-  // Do something to handle the openai chat completions request
-    const users = [
-    { id: 1, name: 'Test_2' },
-    { id: 2, name: 'Test_2' }
-  ];
-  res.send(users);
+app.post('/api/openai/v1/chat/completions', async (req, res) => {
+  console.log('Received chat completions request');
+  const { prompt } = req.body;
+  
+  // Call OpenAI API to get completion
+  const completion = await getChatCompletion(prompt);
+  
+  // Return completion as JSON response
+  res.json({ completion });
 });
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
