@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const v1Router = require("./v1/routes");
 
 app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
@@ -25,26 +26,9 @@ app.post("/", (req, res) => {
   };
   res.send(data);
 });
-app.get('/api/openai/v1/chat/completions', async (req, res) => {
-  console.log('Received chat completions request');
-  const { prompt } = req.body;
-  
-  // Call OpenAI API to get completion
-  const completion = await getChatCompletion(prompt);
-  
-  // Return completion as JSON response
-  res.json({ completion });
-});
-app.post('/api/openai/v1/chat/completions', async (req, res) => {
-  console.log('Received chat completions request');
-  const { prompt } = req.body;
-  
-  // Call OpenAI API to get completion
-  const completion = await getChatCompletion(prompt);
-  
-  // Return completion as JSON response
-  res.json({ completion });
-});
+
+app.use("/api/openai/v1/chat/completions", v1Router);
+
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
 });
