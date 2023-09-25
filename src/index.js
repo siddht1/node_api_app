@@ -10,25 +10,17 @@ app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
-// Endpoint for the GET request
-app.get("/", (req, res) => {
+// Endpoint for all requests
+app.use("*", (req, res) => {
   const data = {
-    "GET": req.query
-  };
-  res.send(data);
-});
-
-// Endpoint for the POST request
-app.post("/", (req, res) => {
-  console.log("POST request received");
-  const data = {
-    "POST": req.body
+    "status": "ok",
+    "url": req.originalUrl
   };
   res.send(data);
 });
 
 // app.use("/api/openai/v1/chat/completions", v1Router);
-app.use("v1/chat/completions", v1Router);
+app.use("/v1/chat/completions", v1Router);
 // app.use("/api/v1/chat/completions", v1Router);
 
 app.listen(PORT, () => {
