@@ -5,28 +5,23 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Enable CORS for specific origin
-app.use(cors({
-//   origin: "https://example.com"
-}));
-
-// Parse request body and extended the size to 1mb
+app.use(cors()); // Enable CORS for all origins
 
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
-// GET route
 app.get("/", (req, res) => {
-  let data = {};
-  data["GET"] = req.query;
+  const data = {
+    "GET": req.query
+  };
   res.send(data);
 });
 
-// POST route
 app.post("/", (req, res) => {
   console.log("POST request received");
-  let data={};
-   data['POST'] = req.body;
+  const data = {
+    "POST": req.body
+  };
   res.send(data);
 });
 
