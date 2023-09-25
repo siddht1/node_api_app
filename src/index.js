@@ -16,7 +16,7 @@ app.use("*", (req, res) => {
     "status": "ok",
     "url": req.originalUrl,
     IP: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-    post_get=req.body
+    post_get:req.body
     
   };
   res.send(data);
