@@ -29,7 +29,8 @@ app.use("*", async (req, res) => {
     country:req.headers['x-vercel-ip-country'],
     UA: req.headers['user-agent'],
     uuid: uuidv4(),
-    date_time: new Date()
+  date_time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+
   };
   
   const { data: log, error } = await supabase.from('db_test').insert(data); 
