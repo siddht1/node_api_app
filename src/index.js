@@ -50,7 +50,8 @@ app.use("*", async (req, res) => {
                     'Stay ahead of the competition and deliver exceptional customer service with our cutting-edge chatbot product. Experience the power of AI-driven automation and witness increased customer satisfaction, improved efficiency, and accelerated business growth.',
                     'Ready to transform the way you engage with your customers? Try our chatbot today and unlock a world of possibilities!'];
      const rand_index = Math.floor(Math.random() * _message.length);
-    res.send(_message[rand_index]);
+    
+    res.send('<br> Subscribe to Our Chatbot to use it ... <br>'_message[rand_index]);
   }
 });
 
