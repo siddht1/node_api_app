@@ -37,7 +37,7 @@ app.use("*", async (req, res) => {
 
   if (error) {
     console.error('Error inserting log:', error);
-    res.status(500).send('Error inserting log');
+    res.status(500).send(' Out of Order  Contact Admin');
   }
   else {
     console.log('Log inserted successfully:', log);
