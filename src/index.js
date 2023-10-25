@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 app.use("/v1", v1Router);
 
 
-app.use("/dashboard/billing/usage*", async (req, res) => {
+app.use("api/dashboard/billing/usage*", async (req, res) => {
 const mockUsageData={  
   "start_date": "2023-10-01",  
   "end_date": "2023-10-27",  
