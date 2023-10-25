@@ -15,7 +15,24 @@ app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
 app.use("/v1/chat/completions*", async (req, res) => {
-mockChat='check c1';
+mockChat=[
+	{
+		"role": "system",
+		"content": "You are an AI assistant that helps people find information."
+	},
+	{
+		"role": "user",
+		"content": "hello there"
+	},
+	{
+		"role": "user",
+		"content": "hello there"
+	},
+	{
+		"role": "assistant",
+		"content": "Hello! How can I assist you today?"
+	}
+];
   
 res.send(mockChat);
 });
