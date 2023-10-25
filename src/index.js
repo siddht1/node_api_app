@@ -17,9 +17,39 @@ app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
 // Use v1Router for version 1 API requests
 app.use("/v1", v1Router);
+app.use("v1/models/*", async (req, res) => {
+const mockModels={  
+  "models": [  
+    {  
+      "id": "gpt-3.5-turbo",  
+      "name": "GPT-3.5 Turbo",  
+      "description": "The turbocharged version of GPT-3 with advanced capabilities.",  
+      "version": "1.0.0",  
+      "author": "OpenAI",  
+      "created_at": "2023-01-01",  
+      "usage": {  
+        "requests": 1000000,  
+        "tokens": 1000000  
+      }  
+    },  
+    {  
+      "id": "text-davinci-003",  
+      "name": "Davinci-003",  
+      "description": "The Davinci model version 003, specialized for text generation.",  
+      "version": "3.0.0",  
+      "author": "OpenAI",  
+      "created_at": "2022-05-01",  
+      "usage": {  
+        "requests": 500000,  
+        "tokens": 500000  
+      }  
+    }
+  ]  
+};  
+res.send(mockModels);
+});
 
-
-app.use("api/dashboard/billing/usage*", async (req, res) => {
+app.use("api/dashboard/billing/usage/*", async (req, res) => {
 const mockUsageData={  
   "start_date": "2023-10-01",  
   "end_date": "2023-10-27",  
