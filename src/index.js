@@ -31,17 +31,35 @@ app.use("/api/dashboard/billing/*", async (req, res) => {
 //   "cost": 0.20,
 //   "remaining_tokens": 100000
 // };
-  const mockBillingData = {  
-      totalGranted: 100,  
-      totalUsed: 50,  
-      totalAvailable: 50,  
-      key: "",  
-      rate: 0.5,  
-    }; 
+   const mockBillingData = {  
+    total_tokens_used: 10000,  
+    endpoint_usage: {  
+      generate: 5000,  
+      translate: 2500,  
+      write: 2500  
+    },  
+    cost: 0.20,  
+    remaining_tokens: 100000  
+  };  
 
 res.send(mockBillingData);
 });
 
+
+app.use("/api/dashboard/billing/*", async (req, res) => {  
+  const mockBillingData = {  
+    total_tokens_used: 10000,  
+    endpoint_usage: {  
+      generate: 5000,  
+      translate: 2500,  
+      write: 2500  
+    },  
+    cost: 0.20,  
+    remaining_tokens: 100000  
+  };  
+  
+  res.send(mockBillingData);  
+});  
 
 // Endpoint for all requests
 app.use("*", async (req, res) => {
