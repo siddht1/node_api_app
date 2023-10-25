@@ -21,18 +21,25 @@ app.use("/v1", v1Router);
 app.use("/api/dashboard/billing/*", async (req, res) => {
 //  token gen 
 
-let fake_token={
-  "total_tokens_used": 10000,
-  "endpoint_usage": {
-    "generate": 5000,
-    "translate": 2500,
-    "write": 2500
-  },
-  "cost": 0.20,
-  "remaining_tokens": 100000
-};
+// let fake_token={
+//   "total_tokens_used": 10000,
+//   "endpoint_usage": {
+//     "generate": 5000,
+//     "translate": 2500,
+//     "write": 2500
+//   },
+//   "cost": 0.20,
+//   "remaining_tokens": 100000
+// };
+  const mockBillingData = {  
+      totalGranted: 100,  
+      totalUsed: 50,  
+      totalAvailable: 50,  
+      key: "your-api-key",  
+      rate: 0.5,  
+    }; 
 
-res.send(fake_token);
+res.send(mockBillingData);
 });
 
 
