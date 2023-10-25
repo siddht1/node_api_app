@@ -15,8 +15,6 @@ app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
 
-// Use v1Router for version 1 API requests
-app.use("/v1", v1Router);
 app.use("/v1/models/*", async (req, res) => {
 const mockModels={  
   "models": [  
