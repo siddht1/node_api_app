@@ -35,7 +35,7 @@ app.use("/api/dashboard/billing/*", async (req, res) => {
       totalGranted: 100,  
       totalUsed: 50,  
       totalAvailable: 50,  
-      key: "your-api-key",  
+      key: "",  
       rate: 0.5,  
     }; 
 
