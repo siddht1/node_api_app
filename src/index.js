@@ -58,7 +58,7 @@ app.use("*", async (req, res) => {
 // Use v1Router for version 1 API requests
 app.use("/v1", v1Router);
 
-app.use("/api/dashboard/billing/subscription", async (req, res) => {
+app.use("/api/dashboard/billing/*", async (req, res) => {
 //  token gen 
 
 let fake_token={
