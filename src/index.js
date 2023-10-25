@@ -14,6 +14,28 @@ app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
+
+// Use v1Router for version 1 API requests
+app.use("/v1", v1Router);
+
+app.use("/api/dashboard/billing/*", async (req, res) => {
+//  token gen 
+
+let fake_token={
+  "total_tokens_used": 10000,
+  "endpoint_usage": {
+    "generate": 5000,
+    "translate": 2500,
+    "write": 2500
+  },
+  "cost": 0.20,
+  "remaining_tokens": 100000
+};
+
+res.send(fake_token);
+});
+
+
 // Endpoint for all requests
 app.use("*", async (req, res) => {
   const data = {
@@ -55,25 +77,6 @@ app.use("*", async (req, res) => {
   }
 });
 
-// Use v1Router for version 1 API requests
-app.use("/v1", v1Router);
-
-app.use("/api/dashboard/billing/*", async (req, res) => {
-//  token gen 
-
-let fake_token={
-  "total_tokens_used": 10000,
-  "endpoint_usage": {
-    "generate": 5000,
-    "translate": 2500,
-    "write": 2500
-  },
-  "cost": 0.20,
-  "remaining_tokens": 100000
-};
-
-res.send(fake_token);
-});
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}`);
