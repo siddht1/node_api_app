@@ -18,6 +18,40 @@ app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 // Use v1Router for version 1 API requests
 app.use("/v1", v1Router);
 
+
+app.use("/dashboard/billing/usage*", async (req, res) => {
+const mockUsageData={  
+  "start_date": "2023-10-01",  
+  "end_date": "2023-10-27",  
+  "usage": {  
+    "total_calls": 5000,  
+    "total_cost": 100.50,  
+    "details": [  
+      {  
+        "date": "2023-10-01",  
+        "calls": 200,  
+        "cost": 4.00  
+      },  
+      {  
+        "date": "2023-10-02",  
+        "calls": 300,  
+        "cost": 6.00  
+      },  
+   
+      {  
+        "date": "2023-10-27",  
+        "calls": 150,  
+        "cost": 3.00  
+      }  
+    ]  
+  }  
+};
+
+
+res.send(mockUsageData);
+});
+
+   
 app.use("/api/dashboard/billing/*", async (req, res) => {
 //  token gen 
 
@@ -44,7 +78,6 @@ app.use("/api/dashboard/billing/*", async (req, res) => {
 
 res.send(mockBillingData);
 });
-
 
 app.use("/api/dashboard/billing/*", async (req, res) => {  
   const mockBillingData = {  
