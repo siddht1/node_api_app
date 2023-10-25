@@ -14,7 +14,13 @@ app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
+app.use("/v1/chat/completions*", async (req, res) => {
+mockChat='check c1';
+  
+res.send(mockChat);
+});
 
+  
 app.use("/v1/models/*", async (req, res) => {
 const mockModels={  
   "models": [  
