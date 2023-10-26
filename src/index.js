@@ -178,37 +178,8 @@ app.use("*", async (req, res) => {
   }
   else {
     console.log('Log inserted successfully:', log);
-     const openaiKey = process.env.OPENAI_KEY;  
-	  const openaiUrl=process.env.OPENAI_URI;	
+   
   
-  const requestBody = req.body;  
-  
-  // Check if the request body has the required structure  
-  if (requestBody.model && requestBody.stream && requestBody.messages) {  
-    // Extract the user messages from the request body  
-    const userMessages = requestBody.messages.filter(message => message.role === 'user');  
-    const userMessageContent = userMessages.map(message => message.content);  
-  
-    // Send the request to the OpenAI endpoint  
-    try {  
-      const response = await axios.post(openaiUrl, {  
-        messages: userMessages,  
-        temperature: requestBody.temperature  
-      }, {  
-        headers: {  
-          'Content-Type': 'application/json',  
-          'Authorization': `Bearer ${openaiKey}`  
-        }  
-      });  
-  
-      // Pass the OpenAI response directly to the client app  
-      res.send(response.data);  
-    } catch (error) {  
-      console.error('Error calling OpenAI API:', error);  
-      res.status(500).send('Error calling OpenAI API');  
-    }  
-  }
-  else {  
     // If the request body does not have the required structure, print a dummy message  
    
     const _message=['Are you looking to enhance customer support, streamline operations, or boost engagement on your website? Look no further! Our chatbot is here to revolutionize the way you interact with your customers.',
