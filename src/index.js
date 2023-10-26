@@ -9,33 +9,39 @@ const v1Router = require("./v1/routes");
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+const axios = require('axios');  
 
 app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 
-app.use("/v1/chat/completions*", async (req, res) => {
-mockChat=[
-	{
-		"role": "system",
-		"content": "You are an AI assistant that helps people find information."
-	},
-	{
-		"role": "user",
-		"content": "hello there"
-	},
-	{
-		"role": "user",
-		"content": "hello there"
-	},
-	{
-		"role": "assistant",
-		"content": "Hello! How can I assist you today?"
-	}
-];
+app.use("/v1/chat/completions/*", async (req, res) => {
+  // const openaiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';  
+	// uri format
+	const openaiUrl=process.env.OPENAI_URI;	
+  const openaiKey = process.env.OPENAI_KEY; 
+  // Extract the user message from the request body  
+  const userMessage = req.body.userMessage;  
   
-res.send(mockChat);
-});
+  // Send the request to the OpenAI endpoint  
+  try {  
+    const response = await axios.post(openaiUrl, {  
+      prompt: userMessage,  
+      max_tokens: 50  
+    }, {  
+      headers: {  
+        'Content-Type': 'application/json',  
+        'Authorization': `Bearer ${openaiKey}`  
+      }  
+    });  
+  
+    // Pass the OpenAI response directly to the client app  
+    res.send(response.data);  
+  } catch (error) {  
+    console.error('Error calling OpenAI API:', error);  
+    res.status(500).send('Error calling OpenAI API');  
+  }  
+}); 
 
   
 app.use("/v1/models/*", async (req, res) => {
