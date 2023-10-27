@@ -21,7 +21,7 @@ const allRouter=require('./route/All')
 
 const routers={
     usage:'/api/dashboard/billing/usage/*',
-    billing:'/api/dashboard/billing/*'
+    billing:'/api/dashboard/billing/*',
     completions:'/v1/chat/completions/*',
     models:'/v1/models/*',
     all:'*'
