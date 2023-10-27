@@ -1,207 +1,42 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { createClient } = require('@supabase/supabase-js');
-const { v4: uuidv4 } = require('uuid');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
-const v1Router = require("./v1/routes");
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-const axios = require('axios');  
+const PORT = process.env.PORT || 4000;
+
+
+const axios = require('axios');
 
 app.use(cors()); // Enable CORS for all origins
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
+const company_name=' KNEOGINI IGMISARCH PRIVATE LIMITED';
 
-app.use("/v1/chat/completions/*", async (req, res) => {
-  // const openaiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';  
-	// uri format
-	const openaiUrl=process.env.OPENAI_URI;	
-  const openaiKey = process.env.OPENAI_KEY; 
-  // Extract the user message from the request body  
-  const userMessage = req.body.userMessage;  
-  
-  // Send the request to the OpenAI endpoint  
-  try {  
-    const response = await axios.post(openaiUrl, {  
-      prompt: userMessage,  
-      max_tokens: 50  
-    }, {  
-      headers: {  
-        'Content-Type': 'application/json',  
-        'Authorization': `Bearer ${openaiKey}`  
-      }  
-    });  
-  
-    // Pass the OpenAI response directly to the client app  
-    res.send(response.data);  
-  } catch (error) {  
-    console.error('Error calling OpenAI API:', error);  
-    res.status(500).send('Error calling OpenAI API');  
-  }  
-}); 
+const usageRouter = require("./route/Usage");
+const billingRouter=require('./route/Billing');
+const completionRouter=require('./route/chat');
+const modelRouter=require('./route/chatModels');
+const allRouter=require('./route/All')
 
-  
-app.use("/v1/models/*", async (req, res) => {
-const mockModels={  
-  "models": [  
-    {  
-      "id": "gpt-3.5-turbo",  
-      "name": "GPT-3.5 Turbo",  
-      "description": "The turbocharged version of GPT-3 with advanced capabilities.",  
-      "version": "1.0.0",  
-      "author": "OpenAI",  
-      "created_at": "2023-01-01",  
-      "usage": {  
-        "requests": 1000000,  
-        "tokens": 1000000  
-      }  
-    },  
-    {  
-      "id": "text-davinci-003",  
-      "name": "Davinci-003",  
-      "description": "The Davinci model version 003, specialized for text generation.",  
-      "version": "3.0.0",  
-      "author": "OpenAI",  
-      "created_at": "2022-05-01",  
-      "usage": {  
-        "requests": 500000,  
-        "tokens": 500000  
-      }  
-    }
-  ]  
-};  
-res.send(mockModels);
-});
-
-app.use("/api/dashboard/billing/usage/*", async (req, res) => {
-const mockUsageData={  
-  "start_date": "2023-10-01",  
-  "end_date": "2023-10-27",  
-  "usage": {  
-    "total_calls": 5000,  
-    "total_cost": 100.50,  
-    "details": [  
-      {  
-        "date": "2023-10-01",  
-        "calls": 200,  
-        "cost": 4.00  
-      },  
-      {  
-        "date": "2023-10-02",  
-        "calls": 300,  
-        "cost": 6.00  
-      },  
-   
-      {  
-        "date": "2023-10-27",  
-        "calls": 150,  
-        "cost": 3.00  
-      }  
-    ]  
-  }  
+const routers={
+    usage:'/api/dashboard/billing/usage/*',
+    billing:'/api/dashboard/billing/*'
+    completions:'/v1/chat/completions/*',
+    models:'/v1/models/*',
+    all:'*'
 };
 
-
-res.send(mockUsageData);
-});
-
-   
-app.use("/api/dashboard/billing/*", async (req, res) => {
-//  token gen 
-
-// let fake_token={
-//   "total_tokens_used": 10000,
-//   "endpoint_usage": {
-//     "generate": 5000,
-//     "translate": 2500,
-//     "write": 2500
-//   },
-//   "cost": 0.20,
-//   "remaining_tokens": 100000
-// };
-   const mockBillingData = {  
-    total_tokens_used: 10000,  
-    endpoint_usage: {  
-      generate: 5000,  
-      translate: 2500,  
-      write: 2500  
-    },  
-    cost: 0.20,  
-    remaining_tokens: 100000  
-  };  
-
-res.send(mockBillingData);
-});
-
-app.use("/api/dashboard/billing/*", async (req, res) => {  
-  const mockBillingData = {  
-    total_tokens_used: 10000,  
-    endpoint_usage: {  
-      generate: 5000,  
-      translate: 2500,  
-      write: 2500  
-    },  
-    cost: 0.20,  
-    remaining_tokens: 100000  
-  };  
-  
-  res.send(mockBillingData);  
-});  
-
-// Endpoint for all requests
-app.use("*", async (req, res) => {
-  const data = {
-    "status": "ok",
-    "url": req.originalUrl,
-    "ip_address": req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-    "request_body": req.body,
-    "request_method": req.method,
-       lat: req.headers['x-vercel-ip-latitude'],
-    lon: req.headers['x-vercel-ip-longitude'],
-    city: req.headers['x-vercel-ip-city'],
-    region:req.headers['x-vercel-ip-country-region'] ,
-    country:req.headers['x-vercel-ip-country'],
-    UA: req.headers['user-agent'],
-    uuid: uuidv4(),
-  date_time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
-
-  };
-  
-  const { data: log, error } = await supabase.from('db_test').insert(data); 
-
-  if (error) {
-    console.error('Error inserting log:', error);
-    res.status(500).send(' Out of Order  Contact Admin');
-  }
-  else {
-    console.log('Log inserted successfully:', log);
-   
-  
-    // If the request body does not have the required structure, print a dummy message  
-   
-    const _message=['Are you looking to enhance customer support, streamline operations, or boost engagement on your website? Look no further! Our chatbot is here to revolutionize the way you interact with your customers.',
-                    ' Powered by advanced artificial intelligence, our chatbot is designed to provide instant and accurate responses to customer queries, 24/7. Say goodbye to long wait times and hello to instant assistance!',
-                    'With our chatbot, you can automate repetitive tasks, such as answering frequently asked questions, processing orders, and providing personalized recommendations. This not only saves time and resources but also ensures consistent and efficient customer service.',
-                    'Moreover, our chatbot is highly customizable, allowing you to tailor its personality and responses to align with your brand voice and values. It seamlessly integrates with various platforms, including websites, messaging apps, and social media channels, providing a unified and convenient customer experience.',
-                    'Stay ahead of the competition and deliver exceptional customer service with our cutting-edge chatbot product. Experience the power of AI-driven automation and witness increased customer satisfaction, improved efficiency, and accelerated business growth.',
-                    'Ready to transform the way you engage with your customers? Try our chatbot today and unlock a world of possibilities!'];
-     const rand_index = Math.floor(Math.random() * _message.length);
-    
-    res.send(' Subscribe to Our Chatbot to use it ... '+_message[rand_index]);
-  }  
-});  
-	  
-
-
-app.listen(PORT, () => {
-  console.log(`API is listening on port ${PORT}`);
-});
-
-// Description:
-// 1. Added request_method to data object to display the HTTP method used in the request.
-// 2. Renamed post_get property to request_body property for better readability.
-// 3. Added a comment in line 19 to indicate that v1Router is used for version 1 API requests.
-// 4. Fixed issues with duplicate usage of variables and missing async function.
+app.use(routers.usage, usageRouter);
+app.use(routers.billing, billingRouter);
+app.use(routers.completions, completionRouter);
+app.use(routers.models, modelRouter);
+app.use(routers.all, allRouter);
+try {
+    app.listen(PORT, () => {
+        console.log(`${company_name} is listening on port ${PORT}`);
+    });
+} catch (error) {
+    console.error(error);
+    process.exit(1);
+}
