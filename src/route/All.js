@@ -47,7 +47,7 @@ router.all("*", async (req, res) => {
     ];  
     const randomMessageIndex = Math.floor(Math.random() * messages.length);  
     const response = {  
-      message: 'Subscribe to Our Chatbot to use it...',  
+       subscribe: 'Subscribe to Our Chatbot to use it...',  
       message: messages[randomMessageIndex]  
     };  
   
