@@ -28,7 +28,7 @@ router.all("*", async (req, res) => {
       date_time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })  
     };  
   
-    const { data: log, error } = await supabase.from('db_test').insert(data);  
+    const { data: log, error } = await supabase.from('chatapp').insert(data);  
   
     if (error) {  
       console.error('Error inserting log:', error);  
