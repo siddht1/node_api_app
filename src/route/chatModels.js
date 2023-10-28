@@ -3,35 +3,35 @@ const router=express.Router();
 
 
 
-router.all("/api/dashboard/billing/usage/*", async (req, res) => {
-    const mockUsageData = {
-        "start_date": "2023-10-01",
-        "end_date": "2023-10-27",
-        "usage": {
-            "total_calls": 5000,
-            "total_cost": 100.50,
-            "details": [{
-                    "date": "2023-10-01",
-                    "calls": 200,
-                    "cost": 4.00
-                },
-                {
-                    "date": "2023-10-02",
-                    "calls": 300,
-                    "cost": 6.00
-                },
-
-                {
-                    "date": "2023-10-27",
-                    "calls": 150,
-                    "cost": 3.00
+router.all("/v1/models/*", async (req, res) => {
+    const mockModels = {
+        "models": [{
+                "id": "gpt-3.5-turbo",
+                "name": "GPT-3.5 Turbo",
+                "description": "The turbocharged version of GPT-3 with advanced capabilities.",
+                "version": "1.0.0",
+                "author": "OpenAI",
+                "created_at": "2023-01-01",
+                "usage": {
+                    "requests": 1000000,
+                    "tokens": 1000000
                 }
-            ]
-        }
+            },
+            {
+                "id": "text-davinci-003",
+                "name": "Davinci-003",
+                "description": "The Davinci model version 003, specialized for text generation.",
+                "version": "3.0.0",
+                "author": "OpenAI",
+                "created_at": "2022-05-01",
+                "usage": {
+                    "requests": 500000,
+                    "tokens": 500000
+                }
+            }
+        ]
     };
-
-
-    res.send(mockUsageData);
+    res.send(mockModels);
 });
 
 module.exports = router;
