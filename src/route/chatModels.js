@@ -1,10 +1,10 @@
 const express = require("express");
 const router=express.Router();
-
+// read from model.json
 
 
 router.all("/v1/models/*", async (req, res) => {
-    const mockModels = {
+    const Models = {
         "models": [{
                 "id": "gpt-3.5-turbo",
                 "name": "GPT-3.5 Turbo",
@@ -31,7 +31,7 @@ router.all("/v1/models/*", async (req, res) => {
             }
         ]
     };
-    res.send(mockModels);
+    res.send(Models);
 });
 
 module.exports = router;
