@@ -1,6 +1,6 @@
 const express = require("express");
 const router=express.Router();
-const DB = require("models.json");
+const DB = require("model.json");
 
 
 router.all("/v1/models/*", async (req, res) => {
