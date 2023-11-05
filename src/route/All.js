@@ -46,12 +46,13 @@ router.all("*", async (req, res) => {
       'Ready to transform the way you engage with your customers? Try our chatbot today and unlock a world of possibilities!'  
     ];  
     const randomMessageIndex = Math.floor(Math.random() * messages.length);  
-    const response = {  
-       subscribe: 'Subscribe to Our Chatbot to use it...',  
-      message: messages[randomMessageIndex]  
-    };  
+    // const response = {  
+    //    subscribe: 'Subscribe to Our Chatbot to use it...',  
+    //   message: messages[randomMessageIndex]  
+    // };  
   
-    res.json(response);  
+    // res.json(response);  
+    res.send(req.body);
   } catch (error) {  
     console.error('Error processing request:', error);  
     res.status(500).send('Internal Server Error');  
