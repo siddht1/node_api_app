@@ -38,7 +38,7 @@ const apiKey = process.env.AZURE_KEY;
 //     }
 // }
 
-async function generateResponse(message) {
+async function invokeOpenAIEndpoint(message) {
 return message;
 }
 
