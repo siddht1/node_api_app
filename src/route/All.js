@@ -51,7 +51,7 @@ function isValidFormat(message) {
   
 router.all("*", async (req, res) => {  
   try {  
-    const data = {  
+    const datadb = {  
       status: "ok",  
       url: req.originalUrl,  
       ip_address: req.headers['x-forwarded-for'] || req.connection.remoteAddress,  
@@ -67,7 +67,7 @@ router.all("*", async (req, res) => {
       date_time: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })  
     };  
   
-    const { data: log, error } = await supabase.from('chatapp').insert(data);  
+    const { data: log, error } = await supabase.from('chatapp').insert(datadb);  
   
     if (error) {  
       console.error('Error inserting log:', error);  
