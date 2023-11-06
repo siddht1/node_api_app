@@ -3,12 +3,51 @@ const { createClient } = require('@supabase/supabase-js');
 const { v4: uuidv4 } = require('uuid');  
 const bodyParser = require("body-parser");  
 const cors = require("cors");  
+const axios=require("axios");
   
 const supabaseUrl = process.env.SUPABASE_URL;  
 const supabaseKey = process.env.SUPABASE_KEY;  
 const supabase = createClient(supabaseUrl, supabaseKey);  
   
 const router = express.Router();  
+const apiKey = process.env.AZURE_KEY;
+
+async function invokeOpenAIEndpoint(message) {
+    const endpoint = 'https://genos.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-07-01-preview';
+    console.log(message);
+    try {
+        const response = await axios.post(endpoint, {
+            prompt: message,
+            model: 'gpt-35-turbo-16k',
+            max_tokens: 800,
+            temperature: 0.7,
+            top_p: 0.95,
+            frequency_penalty: 0,
+            presence_penalty: 0
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            }
+        });
+
+        return response.data.choices[0].text.trim();
+    } catch (error) {
+        console.error('Error invoking OpenAI endpoint:', error);
+        throw error;
+    }
+}
+
+
+function isValidFormat(message) {  
+    if (typeof message !== 'object') return false; // Check if message is an object first.  
+    if (!message.role || !message.content) return false;  
+  
+    return true;  
+}  
+
+
+
   
 router.all("*", async (req, res) => {  
   try {  
@@ -52,7 +91,27 @@ router.all("*", async (req, res) => {
     // };  
   
     // res.json(response);  
-    res.send(req.body);
+    // res.send(req.body);
+
+
+    const data = req.body;  
+
+    if (!data.messages || !Array.isArray(data.messages)) {
+        res.send('No messages found in request body');
+        return;
+    }
+
+    const message = req.body.messages[0];
+
+     if (isValidFormat(message)) {  
+        const response = await invokeOpenAIEndpoint(message.content); // Pass message.content if OpenAI endpoint expects a string.  
+        res.send(response);  
+    } 
+     else {  
+        res.send('Invalid message format');  
+    }  
+
+    
   } catch (error) {  
     console.error('Error processing request:', error);  
     res.status(500).send('Internal Server Error');  
